@@ -7,7 +7,7 @@ void processInput(GLFWwindow* window)
 }
 int main()
 {
-
+	
 
 	if (!glfwInit()) { return -1; }
 
@@ -19,7 +19,11 @@ int main()
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
-
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return -1;
+	}
 	while (!glfwWindowShouldClose(window)) {
 
 
