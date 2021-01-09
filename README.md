@@ -18,3 +18,11 @@ Ce projet utilise GLAD pour gérer OpenGL 3.3, GLFW pour les fenêtres, SpdLog c
 * "Algorithmes pour la synthèse d'images et l'animation 3D", Rémy Malgouyres (french book)
 * Le cours de notre professeur de mathématiques
 
+# Fonctionnalités implémentées
+
+- [ ] Afficher un menu déroulant (clic droit souris) contenant les champs couleur, tracer polygone, tracer la découpe, appliquer la découpe, remplir.
+	* [ ] Fenêtre sélécteur de couleur et code hexadécimale
+- [ ] Tracer un polygone de la couleur choisit
+- [ ] Tracer la fenêtre de découpe d'une autre couleur (inverse de ce qu'il y a en dessous)
+- [ ] Afficher le polygone découpé par la fenêtre d'une autre couleur
+- [ ] Remplir le polygone séléctionné
