@@ -1,3 +1,32 @@
+/*####################################################################################################################
+#																													 #
+#																													 #
+#																													 #
+#										Tom RAKOTOMANAMPISON and Lior DILER                                          #
+#													   present                                                       #
+#																													 #
+#																													 #
+#                           __________      .__          _________.__                                                #
+#                           \______   \____ |  | ___.__./   _____/|  | _____  ___.__. ___________                    #
+#                            |     ___/  _ \|  |<   |  |\_____  \ |  | \__  \<   |  |/ __ \_  __ \                   #
+#                            |    |  (  <_> )  |_\___  |/        \|  |__/ __ \\___  \  ___/|  | \/                   #
+#                            |____|   \____/|____/ ____/_______  /|____(____  / ____|\___  >__|                      #
+#                           					 \/            \/           \/\/         \/                          #
+#																													 #
+#																													 #
+#               					 ~ an OpenGL project to study polygon clipping ~                                 #
+#																													 #
+#																													 #
+#																													 #
+#																													 #
+#																													 #
+#                               	       4th grade 3D and Video Game engineering                                   #
+#                                                    ESGI - 2020/2021                                                #																													 #
+#																													 #
+####################################################################################################################*/
+
+
+
 #include "stdafx.h"
 
 void processInput(GLFWwindow* window)
@@ -10,28 +39,9 @@ static void glfw_error_callback(int error, const char* description)
 {
 	spdlog::error("Glfw Error {}: {}", error, description);
 }
-
 int main()
 {
-	/*
-
-	if (!glfwInit()) { return -1; }
-
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
-	if (!window)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-
-	*/
+	
 	// Setup window
 	glfwSetErrorCallback(glfw_error_callback);
 	if (!glfwInit())
