@@ -59,6 +59,8 @@ int main()
 	bool show_demo_window = true;
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	float my_color[4];
+
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -91,10 +93,33 @@ int main()
 
 		if (show_another_window)
 		{
-			ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-			ImGui::Text("Hello from another window!");
-			if (ImGui::Button("Close Me"))
-				show_another_window = false;
+			// Create a window called "My First Tool", with a menu bar.
+			ImGui::Begin("My First Tool", &show_another_window, ImGuiWindowFlags_MenuBar);
+			if (ImGui::BeginMenuBar())
+			{
+				if (ImGui::BeginMenu("File"))
+				{
+					if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+					if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
+					if (ImGui::MenuItem("Close", "Ctrl+W")) { show_another_window = false; }
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
+			}
+
+			// Edit a color (stored as ~4 floats)
+			ImGui::ColorEdit4("Color", my_color);
+
+			// Plot some values
+			const float my_values[] = { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
+			ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
+
+			// Display contents in a scrolling region
+			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
+			ImGui::BeginChild("Scrolling");
+			for (int n = 0; n < 50; n++)
+				ImGui::Text("%04d: Some text", n);
+			ImGui::EndChild();
 			ImGui::End();
 		}
 
