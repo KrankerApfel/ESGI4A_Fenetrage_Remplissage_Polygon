@@ -66,7 +66,10 @@ int main()
 
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 
-
+	const char* glsl_version = "#version 130";
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	ImGui_ImplOpenGL3_Init(glsl_version);
 	// Our state
 	bool show_demo_window = true;
 	bool show_another_window = false;
@@ -162,7 +165,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		s.use();
 		m.draw(s);
-		glfwPollEvents();	
+		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
