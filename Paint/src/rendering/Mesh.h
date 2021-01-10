@@ -25,6 +25,7 @@ public:
 	unsigned int VAO;
 
 	Mesh(const vector<Vertex> vertices, const vector<unsigned int> indices);
+	Mesh();
 	void draw(Shader& shader);
 	void addLastVertexAtPosition(double x, double y);
 	void removeLastVertex();

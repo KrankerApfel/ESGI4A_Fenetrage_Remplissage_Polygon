@@ -1,4 +1,27 @@
 #include "Polygon.h"
+namespace PaintSlayer{
+
+Polygon::Polygon() {
+	this->mesh = Mesh();
+	this->points = vector<Point>();
+	this->color = std::array<float, 4>{1, 1, 1, 0};
+}
+
+Polygon::Polygon(vector<Point> &p) 
+{
+	this->color = std::array<float, 4>{1, 1, 1, 0};
+
+	//this->mesh = Mesh();
+
+    /*this->points = p ;
+	this->color = std::array<float, 4>{1, 1, 1, 0};
+
+	for (int i = 0; i < p.size(); i++)
+	{
+		addPoint(p.at(i).getX(), p.at(i).getY());
+	
+	}*/
+}
 
 std::array<float, 4> Polygon::getColor() const
 {
@@ -34,3 +57,5 @@ void Polygon::draw(Shader& shader)
 	this->mesh.draw(shader);
 }
 
+
+}

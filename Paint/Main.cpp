@@ -30,6 +30,7 @@
 #include "stdafx.h"
 #include "src/rendering/Shader.h"
 #include "src/rendering/Mesh.h"
+#include "src/objects/Polygon.h"
 
 void processInput(GLFWwindow* window)
 {
@@ -78,23 +79,33 @@ int main()
 
 	// shaders
 	// -- 2D simple heart vertices and indices --
+	/*
 	vector<Vertex> vertices =
 	{
-		::Vertex { glm::vec3(-0.5f, 1.0f, 0.0f), },
-		::Vertex { glm::vec3(0.0f, 0.3f, 0.0f),  },
-		::Vertex { glm::vec3(0.5f, 1.0f, 0.0f),  },
-		::Vertex { glm::vec3(1.0f, 0.3f, 0.0f),  },
-		::Vertex { glm::vec3(0.0f, -1.0f, 0.0f), },
-		::Vertex { glm::vec3(-1.0f, 0.3f, 0.0f), }
+		Vertex { glm::vec3(-0.5f, 1.0f, 0.0f), },
+		Vertex { glm::vec3(0.0f, 0.3f, 0.0f),  },
+		Vertex { glm::vec3(0.5f, 1.0f, 0.0f),  },
+		Vertex { glm::vec3(1.0f, 0.3f, 0.0f),  },
+		Vertex { glm::vec3(0.0f, -1.0f, 0.0f), },
+		Vertex { glm::vec3(-1.0f, 0.3f, 0.0f), }
 	};
 	vector<unsigned int> indices = {
 		0, 1, 5,
 		1, 2, 3,
 		3, 4, 1,
 		1, 4, 5
-	};
+	};*/
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	Mesh m(vertices, indices);
+	//Mesh m(vertices, indices);
+	vector<Point> points = {
+		Point(-0.5f, 1.0f),
+		Point(0.0f, 0.3f),
+		Point(0.5f, 1.0f),
+		Point(1.0f, 0.3f),
+		Point(0.0f, -1.0f),
+		Point(-1.0f, 0.3f)
+	};
+ 	PaintSlayer::Polygon p(points);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -164,7 +175,8 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		s.use();
-		m.draw(s);
+		//m.draw(s);
+		p.draw(s);
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
