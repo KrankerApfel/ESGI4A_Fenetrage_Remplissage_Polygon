@@ -7,3 +7,6 @@
 [submodule "Paint/vendor/glfw"]
 	path = Paint/vendor/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "Paint/vendor/glm"]
+	path = Paint/vendor/glm
+	url = https://github.com/g-truc/glm.git
