@@ -13,6 +13,20 @@ void Mesh::draw(Shader& shader)
     glBindVertexArray(0);
 }
 
+void Mesh::addLastVertexAtPosition(double x, double y)
+{
+    this->indices.push_back(this->indices.size() + 1);
+    this->vertices.push_back(Vertex{ glm::vec3(x, y, 0.0f)});
+}
+
+void Mesh::removeLastVertex()
+{
+    this->vertices.pop_back();
+    this->indices.pop_back();
+}
+
+
+
 void Mesh::initRenderingData()
 {
     glGenVertexArrays(1, &VAO);

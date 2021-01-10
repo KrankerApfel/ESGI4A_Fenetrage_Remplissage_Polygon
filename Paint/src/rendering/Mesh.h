@@ -26,6 +26,8 @@ public:
 
 	Mesh(const vector<Vertex> vertices, const vector<unsigned int> indices);
 	void draw(Shader& shader);
+	void addLastVertexAtPosition(double x, double y);
+	void removeLastVertex();
 
 private:
 	unsigned int VBO, EBO;

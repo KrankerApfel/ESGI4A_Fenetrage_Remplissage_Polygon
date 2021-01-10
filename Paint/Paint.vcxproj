@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\io\File.h" />
+    <ClInclude Include="src\objects\Point.h" />
+    <ClInclude Include="src\objects\Polygon.h" />
     <ClInclude Include="src\rendering\Mesh.h" />
     <ClInclude Include="src\rendering\Shader.h" />
     <ClInclude Include="stdafx.h" />
@@ -159,6 +161,8 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\io\File.cpp" />
+    <ClCompile Include="src\objects\Point.cpp" />
+    <ClCompile Include="src\objects\Polygon.cpp" />
     <ClCompile Include="src\rendering\Mesh.cpp" />
     <ClCompile Include="src\rendering\Shader.cpp" />
     <ClCompile Include="stdafx.cpp" />
