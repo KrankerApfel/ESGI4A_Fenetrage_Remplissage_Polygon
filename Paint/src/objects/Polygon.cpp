@@ -55,6 +55,7 @@ namespace PaintSlayer {
 	void Polygon::draw(Shader& shader)
 	{
 		this->mesh.draw(shader);
+		
 	}
 
 

@@ -8,8 +8,8 @@ Mesh::Mesh(const vector<Vertex> _vertices, const vector<unsigned int> _indices) 
 
 Mesh::Mesh()
 {
-	vertices = vector<Vertex>();
-	indices = vector<unsigned int>();
+	this->vertices = vector<Vertex>();
+	this->indices = vector<unsigned int>();
 }
 
 void Mesh::draw(Shader& shader)
@@ -21,7 +21,7 @@ void Mesh::draw(Shader& shader)
 
 void Mesh::addLastVertexAtPosition(double x, double y)
 {
-	this->indices.push_back(this->indices.size() - 1 );
+	this->indices.push_back(this->indices.size());
 	this->vertices.push_back(Vertex{ glm::vec3(x, y, 0.0f) });
 	initRenderingData();
 }

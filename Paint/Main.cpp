@@ -98,14 +98,22 @@ int main()
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 	//Mesh m(vertices, indices);
 	vector<Point> points = {
-		Point(-0.5f, 1.0f),
+		/*Point(-0.5f, 1.0f),
 		Point(0.0f, 0.3f),
 		Point(0.5f, 1.0f),
 		Point(1.0f, 0.3f),
 		Point(0.0f, -1.0f),
-		Point(-1.0f, 0.3f)
+		Point(-1.0f, 0.3f),
+		Point(-0.5f, 1.0f)*/
+
+		Point(-1.0f, 1.0f),
+		Point(1.0f, 1.0f),
+		Point(-1.0f, -1.0f),
+		Point(-1.0f, 0.0f)
+
+
 	};
- 	PaintSlayer::Polygon p(points);
+	PaintSlayer::Polygon p(points);
 
 	while (!glfwWindowShouldClose(window)) {
 
