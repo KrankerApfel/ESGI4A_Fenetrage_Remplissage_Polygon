@@ -90,7 +90,7 @@ int main()
 		3, 4, 1,
 		1, 4, 5
 	};
-	Shader s("resources\\vert.glsl", "resources\\frag.glsl");
+	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 	Mesh m(vertices, indices);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -156,14 +156,13 @@ int main()
 
 		processInput(window);
 
-		s.use();
-		s.setFloat("iTime", 1);
-		m.draw(s);
 
 		ImGui::Render();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		glfwPollEvents();
+		s.use();
+		m.draw(s);
+		glfwPollEvents();	
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
