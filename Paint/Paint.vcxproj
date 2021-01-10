@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\vendor\GLAD\include;$(ProjectDir)\vendor\glfw\include;$(ProjectDir)\vendor\spdlog\include;$(ProjectDir)\vendor\imgui;$(ProjectDir)\vendor\imgui\examples\example_glfw_opengl3;$(ProjectDir)\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,10 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\io\File.h" />
+    <ClInclude Include="src\rendering\Mesh.h" />
+    <ClInclude Include="src\rendering\Shader.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="src\io\File.cpp" />
+    <ClCompile Include="src\rendering\Shader.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="vendor\GLAD\src\glad.c" />
     <ClCompile Include="vendor\imgui\backends\imgui_impl_glfw.cpp" />
