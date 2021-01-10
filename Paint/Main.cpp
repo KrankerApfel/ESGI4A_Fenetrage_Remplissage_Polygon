@@ -106,13 +106,13 @@ int main()
 		Point(-1.0f, 0.3f),
 		Point(-0.5f, 1.0f)*/
 
-		Point(-1.0f, 1.0f),
-		Point(1.0f, 1.0f),
-		Point(-1.0f, -1.0f),
-		Point(-1.0f, 0.0f)
+		Point(-0.5f, 0.5f),
+		Point(0.5f, 0.5f),
+		Point(0.5f, -0.5f),
+		Point(-0.5f, -0.5f)
 
 
-	};
+	};	
 	PaintSlayer::Polygon p(points);
 
 	while (!glfwWindowShouldClose(window)) {
