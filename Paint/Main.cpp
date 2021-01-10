@@ -28,6 +28,8 @@
 
 
 #include "stdafx.h"
+#include "src/rendering/Shader.h"
+#include "src/rendering/Mesh.h"
 
 void processInput(GLFWwindow* window)
 {
@@ -41,7 +43,7 @@ static void glfw_error_callback(int error, const char* description)
 }
 int main()
 {
-	
+
 	// Setup window
 	glfwSetErrorCallback(glfw_error_callback);
 	if (!glfwInit())
@@ -71,6 +73,25 @@ int main()
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	float my_color[4];
 
+	// shaders
+	// -- 2D simple heart vertices and indices --
+	vector<Vertex> vertices =
+	{
+		::Vertex { glm::vec3(-0.5f, 1.0f, 0.0f), },
+		::Vertex { glm::vec3(0.0f, 0.3f, 0.0f),  },
+		::Vertex { glm::vec3(0.5f, 1.0f, 0.0f),  },
+		::Vertex { glm::vec3(1.0f, 0.3f, 0.0f),  },
+		::Vertex { glm::vec3(0.0f, -1.0f, 0.0f), },
+		::Vertex { glm::vec3(-1.0f, 0.3f, 0.0f), }
+	};
+	vector<unsigned int> indices = {
+		0, 1, 5,
+		1, 2, 3,
+		3, 4, 1,
+		1, 4, 5
+	};
+	Shader s("resources\\vert.glsl", "resources\\frag.glsl");
+	Mesh m(vertices, indices);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -134,6 +155,10 @@ int main()
 		}
 
 		processInput(window);
+
+		s.use();
+		s.setFloat("iTime", 1);
+		m.draw(s);
 
 		ImGui::Render();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);

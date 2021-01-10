@@ -6,14 +6,14 @@ Mesh::Mesh(const vector<Vertex> _vertices, const vector<unsigned int> _indices) 
     initRenderingData();
 }
 
-void Kranker3D::Mesh::draw(Kranker3D::Shader& shader)
+void Mesh::draw(Shader& shader)
 {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
 
-void Kranker3D::Mesh::initRenderingData()
+void Mesh::initRenderingData()
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -43,4 +43,3 @@ void Kranker3D::Mesh::initRenderingData()
 
     glBindVertexArray(0);
 }
-© 2021 GitHub, Inc.
