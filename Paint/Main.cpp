@@ -32,11 +32,13 @@
 #include "src/rendering/Mesh.h"
 #include "src/objects/Polygon.h"
 
+
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
+
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -44,7 +46,6 @@ static void glfw_error_callback(int error, const char* description)
 }
 int main()
 {
-
 	// Setup window
 	glfwSetErrorCallback(glfw_error_callback);
 	if (!glfwInit())
@@ -74,9 +75,15 @@ int main()
 	// Our state
 	bool show_demo_window = true;
 	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	float my_color[4];
+	bool show_main_menu = false;
+	bool show_color_menu = false;
 
+	bool isDrawingPolygon = false;
+
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImVec4 my_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	//float my_color[4] = {255.0f, 255.0f, 255.0f, 255.0f};
+	
 	// shaders
 	// -- 2D simple heart vertices and indices --
 	/*
@@ -116,7 +123,11 @@ int main()
 	PaintSlayer::Polygon p(points);
 
 	while (!glfwWindowShouldClose(window)) {
-
+		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
+		if (state == GLFW_PRESS)
+		{
+			show_main_menu = true;
+		}
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -144,6 +155,49 @@ int main()
 			ImGui::End();
 		}
 
+		if (show_main_menu)
+		{
+			ImGui::Begin("Tool Menu", &show_main_menu);
+			if (ImGui::Button("Change color"))
+			{
+				show_main_menu = false;
+				show_color_menu = true;
+			}
+			if (ImGui::Button("Draw polygone"))
+			{
+				show_main_menu = false;
+				isDrawingPolygon = true;
+			}
+			if (ImGui::Button("Draw clipping area"))
+			{
+				//do something
+			}
+			if (ImGui::Button("Apply clipping"))
+			{
+				//do something
+			}
+			if (ImGui::Button("Fill"))
+			{
+				//do something
+			}
+			ImGui::End();
+		}
+
+		if (isDrawingPolygon)
+		{
+			ImGui::Begin("Indications");
+			ImGui::Text("add point: left click, ctrl+z: remove point");
+			ImGui::End();
+		}
+
+		if (show_color_menu)
+		{
+			ImGui::Begin("Change Color Menu", &show_color_menu);
+			ImGui::ColorEdit4("color", (float*)&my_color);
+			//ImGui::ColorEdit4("Color", my_color); for storing to floaot array instead 
+			ImGui::End();
+		}
+
 		if (show_another_window)
 		{
 			// Create a window called "My First Tool", with a menu bar.
@@ -161,7 +215,7 @@ int main()
 			}
 
 			// Edit a color (stored as ~4 floats)
-			ImGui::ColorEdit4("Color", my_color);
+			//ImGui::ColorEdit4("Color", my_color);
 
 			// Plot some values
 			const float my_values[] = { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
