@@ -31,7 +31,7 @@
 #include "src/rendering/Shader.h"
 #include "src/rendering/Mesh.h"
 #include "src/objects/Polygon.h"
-
+#include "src/objects/Point.h"
 
 void processInput(GLFWwindow* window)
 {
@@ -77,9 +77,11 @@ int main()
 	bool show_another_window = false;
 	bool show_main_menu = false;
 	bool show_color_menu = false;
+	bool leftClicked = false;
 
 	bool isDrawingPolygon = false;
 
+	
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	ImVec4 my_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	//float my_color[4] = {255.0f, 255.0f, 255.0f, 255.0f};
@@ -120,6 +122,8 @@ int main()
 
 
 	};	
+	vector<Point> polyPoints = {};
+
 	PaintSlayer::Polygon p(points);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -127,6 +131,11 @@ int main()
 		if (state == GLFW_PRESS)
 		{
 			show_main_menu = true;
+		}
+		int stateLeft = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+		if (stateLeft == GLFW_PRESS)
+		{
+			stateLeft = true;
 		}
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -165,7 +174,7 @@ int main()
 			}
 			if (ImGui::Button("Draw polygone"))
 			{
-				show_main_menu = false;
+				show_main_menu = false;le
 				isDrawingPolygon = true;
 			}
 			if (ImGui::Button("Draw clipping area"))
@@ -185,9 +194,19 @@ int main()
 
 		if (isDrawingPolygon)
 		{
+
 			ImGui::Begin("Indications");
 			ImGui::Text("add point: left click, ctrl+z: remove point");
 			ImGui::End();
+			if (stateLeft)
+			{
+				double xpos, ypos;
+				glfwGetCursorPos(window, &xpos, &ypos);
+				Point p(xpos, ypos);
+				polyPoints.push_back(p);
+				printf("xpos: %p", p.getX());
+				printf("ypos: %p", p.getY());
+			}
 		}
 
 		if (show_color_menu)
@@ -206,7 +225,9 @@ int main()
 			{
 				if (ImGui::BeginMenu("File"))
 				{
-					if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
+					if (ImGui::MenuItem("Open..", "Ctrl+O")) {
+						printf("did shortcut");
+					}
 					if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Close", "Ctrl+W")) { show_another_window = false; }
 					ImGui::EndMenu();
