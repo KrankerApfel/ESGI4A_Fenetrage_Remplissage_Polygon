@@ -15,7 +15,7 @@ Mesh::Mesh()
 void Mesh::draw(Shader& shader)
 {
 	glBindVertexArray(VAO);
-	glDrawElements(GL_POLYGON, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_LINE_LOOP, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
