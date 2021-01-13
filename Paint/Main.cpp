@@ -39,11 +39,20 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 }
 
+Point screenToWorldCoordinateint(double x, double y, GLFWwindow* w) {
+	//get screen size
+	int Rx, Ry;
+	glfwGetWindowSize(w, &Rx, &Ry);
 
+	double clipX = (x / Rx) * 2.0 - 1.0;
+	double clipY = 1.0 - (y / Ry) * 2.0; // the Y is usually upside down
+	return Point(clipX, clipY);
+}
 static void glfw_error_callback(int error, const char* description)
 {
 	spdlog::error("Glfw Error {}: {}", error, description);
 }
+
 int main()
 {
 	// Setup window
@@ -63,6 +72,8 @@ int main()
 		return -1;
 	}
 
+
+
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 
@@ -81,11 +92,11 @@ int main()
 
 	bool isDrawingPolygon = false;
 
-	
+
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	ImVec4 my_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	//float my_color[4] = {255.0f, 255.0f, 255.0f, 255.0f};
-	
+
 	// shaders
 	// -- 2D simple heart vertices and indices --
 	/*
@@ -105,26 +116,9 @@ int main()
 		1, 4, 5
 	};*/
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	//Mesh m(vertices, indices);
-	vector<Point> points = {
-		/*Point(-0.5f, 1.0f),
-		Point(0.0f, 0.3f),
-		Point(0.5f, 1.0f),
-		Point(1.0f, 0.3f),
-		Point(0.0f, -1.0f),
-		Point(-1.0f, 0.3f),
-		Point(-0.5f, 1.0f)*/
 
-		Point(-0.5f, 0.5f),
-		Point(0.5f, 0.5f),
-		Point(0.5f, -0.5f),
-		Point(-0.5f, -0.5f)
-
-
-	};	
-	vector<Point> polyPoints = {};
-
-	PaintSlayer::Polygon p(points);
+	PaintSlayer::Polygon p;
+	
 
 	while (!glfwWindowShouldClose(window)) {
 		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
@@ -174,7 +168,7 @@ int main()
 			}
 			if (ImGui::Button("Draw polygone"))
 			{
-				show_main_menu = false;le
+				show_main_menu = false;
 				isDrawingPolygon = true;
 			}
 			if (ImGui::Button("Draw clipping area"))
@@ -202,10 +196,10 @@ int main()
 			{
 				double xpos, ypos;
 				glfwGetCursorPos(window, &xpos, &ypos);
-				Point p(xpos, ypos);
-				polyPoints.push_back(p);
-				printf("xpos: %p", p.getX());
-				printf("ypos: %p", p.getY());
+
+				Point point = screenToWorldCoordinateint(xpos, ypos, window);
+				p.addPoint(point.getX(), point.getY());
+				spdlog::info("xpos: {}, ypos {}", point.getX(), point.getY());
 			}
 		}
 
