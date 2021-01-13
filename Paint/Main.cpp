@@ -97,24 +97,6 @@ int main()
 	ImVec4 my_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	//float my_color[4] = {255.0f, 255.0f, 255.0f, 255.0f};
 
-	// shaders
-	// -- 2D simple heart vertices and indices --
-	/*
-	vector<Vertex> vertices =
-	{
-		Vertex { glm::vec3(-0.5f, 1.0f, 0.0f), },
-		Vertex { glm::vec3(0.0f, 0.3f, 0.0f),  },
-		Vertex { glm::vec3(0.5f, 1.0f, 0.0f),  },
-		Vertex { glm::vec3(1.0f, 0.3f, 0.0f),  },
-		Vertex { glm::vec3(0.0f, -1.0f, 0.0f), },
-		Vertex { glm::vec3(-1.0f, 0.3f, 0.0f), }
-	};
-	vector<unsigned int> indices = {
-		0, 1, 5,
-		1, 2, 3,
-		3, 4, 1,
-		1, 4, 5
-	};*/
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 
 	PaintSlayer::Polygon p;
@@ -207,7 +189,7 @@ int main()
 		{
 			ImGui::Begin("Change Color Menu", &show_color_menu);
 			ImGui::ColorEdit4("color", (float*)&my_color);
-			//ImGui::ColorEdit4("Color", my_color); for storing to floaot array instead 
+			s.setColor("icolor", my_color.x, my_color.y, my_color.z);
 			ImGui::End();
 		}
 

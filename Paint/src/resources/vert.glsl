@@ -1,5 +1,6 @@
  #version 430 core
     in vec3 pos;
+    uniform vec3 icolor;
     out vec3 texcoord;
     void main()
     {

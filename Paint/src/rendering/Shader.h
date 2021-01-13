@@ -19,4 +19,7 @@ public:
 	GLuint getProgramId() { return programId; }
 
 	void setFloat(const char* key, GLfloat value) { glUniform1f(glGetUniformLocation(programId, key), value); }
+	void setColor(const char* key, GLfloat x, GLfloat y, GLfloat z) { glUniform3f(glGetUniformLocation(programId, key), x,y,z); }
 };
+
+
