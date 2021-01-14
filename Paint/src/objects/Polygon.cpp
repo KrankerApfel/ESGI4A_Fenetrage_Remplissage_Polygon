@@ -1,18 +1,20 @@
 #include "Polygon.h"
+#include "../rendering/Shader.h"
 namespace PaintSlayer {
 
-	Polygon::Polygon() {
+	Polygon::Polygon(Shader& s) {
 		this->mesh = Mesh();
 		this->points = vector<Point>();
 		this->color = std::array<float, 4>{1, 1, 1, 0};
+		this->shader = s;
 	}
 
-	Polygon::Polygon(vector<Point>& p)
+	Polygon::Polygon(Shader& s, vector<Point>& p)
 	{
 		this->color = std::array<float, 4>{1, 1, 1, 0};
 
 		this->mesh = Mesh();
-
+		this->shader = s;
 		this->points = p;
 		this->color = std::array<float, 4>{1, 1, 1, 0};
 
@@ -31,6 +33,8 @@ namespace PaintSlayer {
 	void Polygon::setColor(std::array<float, 4> c)
 	{
 		this->color = c;
+		this->shader.setColor("icolor", c[0], c[1], c[2]);
+
 	}
 
 	vector<Point> Polygon::getPoints() const
@@ -42,20 +46,23 @@ namespace PaintSlayer {
 	{
 		this->points.push_back(Point(x, y));
 		this->mesh.addLastVertexAtPosition(x, y);
-
 	}
 
 	void Polygon::removePoint()
 	{
 		this->points.pop_back();
 		this->mesh.removeLastVertex();
-
 	}
 
-	void Polygon::draw(Shader& shader)
+	void Polygon::draw()
 	{
-		this->mesh.draw(shader);
-		
+		this->shader.use();
+		this->mesh.draw(this->shader);
+	}
+
+	Shader& Polygon::getShader() 
+	{
+		return this->shader;
 	}
 
 

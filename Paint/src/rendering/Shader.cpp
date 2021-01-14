@@ -80,6 +80,11 @@ Shader::Shader(std::string vertex_path, std::string fragment_path)
 	this->linkProgramme(v_id, f_id);
 }
 
+Shader::Shader()
+{
+	
+}
+
 void Shader::use()
 {
 	glUseProgram(programId);

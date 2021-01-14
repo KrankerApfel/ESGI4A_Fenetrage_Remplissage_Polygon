@@ -12,17 +12,19 @@ namespace PaintSlayer {
 	class Polygon {
 
 	public:
-		Polygon();
-		Polygon(vector<Point>& );
+		Polygon(Shader& s);
+		Polygon(Shader& s, vector<Point>& );
 		std::array<float, 4> getColor() const;
 		void setColor(std::array<float, 4>);
 		vector<Point> getPoints() const;
 		void addPoint(double x, double y);
 		void removePoint();
-		void draw(Shader& shader);
+		void draw();
+		Shader& getShader();
 	private:
 		vector<Point> points;
 		Mesh mesh;
+		Shader shader;
 		std::array<float, 4> color;
 
 	};

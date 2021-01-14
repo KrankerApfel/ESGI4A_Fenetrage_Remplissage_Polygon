@@ -15,6 +15,7 @@ private:
 
 public:
 	Shader(std::string vertex_path, std::string fragment_path);
+	Shader();
 	void use();
 	GLuint getProgramId() { return programId; }
 

@@ -33,10 +33,29 @@
 #include "src/objects/Polygon.h"
 #include "src/objects/Point.h"
 
+// ==== gobals vars
+enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION } programState;
+bool state_main_menu = true;
+bool state_draw_polygon = false;
+bool state_draw_clipping_area = false;
+bool state_color_selection = false;
+std::array<float, 4> currentColor{ 1, 1, 1, 0 };
+bool leftClick = false;
+double mouseX, mouseY;
+// ===== utils
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+	{
+		programState = State::MAIN_MENU;
+
+	}
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	{
+		if (programState == State::DRAW_POLYGON) leftClick = true;
+	}
 }
 
 Point screenToWorldCoordinateint(double x, double y, GLFWwindow* w) {
@@ -48,11 +67,13 @@ Point screenToWorldCoordinateint(double x, double y, GLFWwindow* w) {
 	double clipY = 1.0 - (y / Ry) * 2.0; // the Y is usually upside down
 	return Point(clipX, clipY);
 }
+
 static void glfw_error_callback(int error, const char* description)
 {
 	spdlog::error("Glfw Error {}: {}", error, description);
 }
 
+// ==== core
 int main()
 {
 	// Setup window
@@ -71,7 +92,8 @@ int main()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
-
+	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+	PaintSlayer::Polygon p(s);
 
 
 	ImGui::CreateContext();
@@ -83,159 +105,88 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	ImGui_ImplOpenGL3_Init(glsl_version);
-	// Our state
-	bool show_demo_window = true;
-	bool show_another_window = false;
-	bool show_main_menu = false;
-	bool show_color_menu = false;
-	bool leftClicked = false;
-
-	bool isDrawingPolygon = false;
 
 
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	ImVec4 my_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	//float my_color[4] = {255.0f, 255.0f, 255.0f, 255.0f};
-
-	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-
-	PaintSlayer::Polygon p;
-	
 
 	while (!glfwWindowShouldClose(window)) {
-		int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-		if (state == GLFW_PRESS)
+
+		// === refresh frame
 		{
-			show_main_menu = true;
-		}
-		int stateLeft = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-		if (stateLeft == GLFW_PRESS)
-		{
-			stateLeft = true;
-		}
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-		{
-			static float f = 0.0f;
-			static int counter = 0;
-
-			ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-			ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-			ImGui::Checkbox("Another Window", &show_another_window);
-
-			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-			ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-			if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-				counter++;
-			ImGui::SameLine();
-			ImGui::Text("counter = %d", counter);
-
-			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-			ImGui::End();
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
 		}
 
-		if (show_main_menu)
+		// === right click menu
+		if (programState == State::MAIN_MENU)
 		{
+			bool show_main_menu;
 			ImGui::Begin("Tool Menu", &show_main_menu);
+
 			if (ImGui::Button("Change color"))
 			{
-				show_main_menu = false;
-				show_color_menu = true;
+				programState = State::COLOR_SELECTION;
+
 			}
 			if (ImGui::Button("Draw polygone"))
 			{
-				show_main_menu = false;
-				isDrawingPolygon = true;
+				programState = State::DRAW_POLYGON;
+
 			}
 			if (ImGui::Button("Draw clipping area"))
 			{
-				//do something
+				programState = State::DRAW_CLIPPING_AREA;
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
-				//do something
+				//sutherlandHodgmanClipping(p);
 			}
 			if (ImGui::Button("Fill"))
 			{
-				//do something
+				//fillPolygon(p)
 			}
 			ImGui::End();
 		}
-
-		if (isDrawingPolygon)
+		// ==== draw polygon
+		if (programState == State::DRAW_POLYGON)
 		{
-
-			ImGui::Begin("Indications");
-			ImGui::Text("add point: left click, ctrl+z: remove point");
-			ImGui::End();
-			if (stateLeft)
+			// indication window
 			{
-				double xpos, ypos;
-				glfwGetCursorPos(window, &xpos, &ypos);
+				ImGui::Begin("Indications");
+				ImGui::Text("add point: left click, ctrl+z: remove point");
+				ImGui::End();
+			}
 
-				Point point = screenToWorldCoordinateint(xpos, ypos, window);
+
+			// add points by clicking on screen
+			if (leftClick)
+			{
+				p.setColor(currentColor);
+				glfwGetCursorPos(window, &mouseX, &mouseY);
+				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);
 				p.addPoint(point.getX(), point.getY());
-				spdlog::info("xpos: {}, ypos {}", point.getX(), point.getY());
+				leftClick = false;
 			}
+			// remove point by ctrl+z
+			//if(ctrlz)
 		}
 
-		if (show_color_menu)
+		// ==== change curent color
+		if (programState == State::COLOR_SELECTION)
 		{
+			bool show_color_menu;
 			ImGui::Begin("Change Color Menu", &show_color_menu);
-			ImGui::ColorEdit4("color", (float*)&my_color);
-			s.setColor("icolor", my_color.x, my_color.y, my_color.z);
+			ImGui::ColorEdit4("color", (float*)&currentColor);
+			if (show_color_menu == false) programState == State::IDLE;
 			ImGui::End();
 		}
-
-		if (show_another_window)
-		{
-			// Create a window called "My First Tool", with a menu bar.
-			ImGui::Begin("My First Tool", &show_another_window, ImGuiWindowFlags_MenuBar);
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginMenu("File"))
-				{
-					if (ImGui::MenuItem("Open..", "Ctrl+O")) {
-						printf("did shortcut");
-					}
-					if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Close", "Ctrl+W")) { show_another_window = false; }
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenuBar();
-			}
-
-			// Edit a color (stored as ~4 floats)
-			//ImGui::ColorEdit4("Color", my_color);
-
-			// Plot some values
-			const float my_values[] = { 0.2f, 0.1f, 1.0f, 0.5f, 0.9f, 2.2f };
-			ImGui::PlotLines("Frame Times", my_values, IM_ARRAYSIZE(my_values));
-
-			// Display contents in a scrolling region
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "Important Stuff");
-			ImGui::BeginChild("Scrolling");
-			for (int n = 0; n < 50; n++)
-				ImGui::Text("%04d: Some text", n);
-			ImGui::EndChild();
-			ImGui::End();
-		}
-
 		processInput(window);
 
 
 		ImGui::Render();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		s.use();
-		//m.draw(s);
-		p.draw(s);
+		p.draw();
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -244,13 +195,12 @@ int main()
 
 
 	}
+
+	// === end
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	glfwTerminate();
-
-	//test
-
 
 	return 0;
 }
