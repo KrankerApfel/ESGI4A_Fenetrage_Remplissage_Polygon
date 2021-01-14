@@ -145,6 +145,10 @@ int main()
 			{
 				//fillPolygon(p)
 			}
+			if (ImGui::Button("Clear all"))
+			{
+				p.clear();
+			}
 			ImGui::End();
 		}
 		// ==== draw polygon

@@ -21,6 +21,7 @@ namespace PaintSlayer {
 		void removePoint();
 		void draw();
 		Shader& getShader();
+		void clear();
 	private:
 		vector<Point> points;
 		Mesh mesh;

@@ -65,5 +65,12 @@ namespace PaintSlayer {
 		return this->shader;
 	}
 
+	void Polygon::clear()
+	{
+		this->points.clear();
+		this->mesh.vertices.clear();
+		this->mesh.indices.clear();
+	}
+
 
 }
