@@ -32,13 +32,9 @@
 #include "src/rendering/Mesh.h"
 #include "src/objects/Polygon.h"
 #include "src/objects/Point.h"
-
 // ==== gobals vars
 enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION } programState;
-bool state_main_menu = true;
-bool state_draw_polygon = false;
-bool state_draw_clipping_area = false;
-bool state_color_selection = false;
+bool ctrlz = false;
 std::array<float, 4> currentColor{ 1, 1, 1, 0 };
 bool leftClick = false;
 double mouseX, mouseY;
@@ -50,11 +46,13 @@ void processInput(GLFWwindow* window)
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{
 		programState = State::MAIN_MENU;
-
 	}
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 	{
-		if (programState == State::DRAW_POLYGON) leftClick = true;
+		leftClick = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS &&(glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)) {
+		 ctrlz = true;
 	}
 }
 
@@ -172,7 +170,11 @@ int main()
 				leftClick = false;
 			}
 			// remove point by ctrl+z
-			//if(ctrlz)
+			if (ctrlz) {
+				spdlog::info("zdzezdd");
+				p.removePoint();
+				ctrlz = false;
+			}
 		}
 
 		// ==== change curent color
