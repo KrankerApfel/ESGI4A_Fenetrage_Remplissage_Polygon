@@ -153,6 +153,14 @@ int main()
 			}
 			if (ImGui::Button("Fill"))
 			{
+				/*bool isInside = p.isInside(Point(3, 5), p.getPoints());
+				vector<Point> rect = p.polyRectangle(p.getPoints());
+				cout << "isInside: " << isInside;
+				cout << "rect is: ";
+				for (int i = 0; i < rect.size(); i++)
+				{
+					cout << rect[i].getX() <<  " - " << rect[i].getY() << "\n";
+				}*/
 				//fillPolygon(p)
 			}
 			if (ImGui::Button("Clear all"))
@@ -175,6 +183,10 @@ int main()
 			// add points by clicking on screen
 			if (leftClick)
 			{
+				/*if (programState == State::MAIN_MENU)
+				{
+					continue;
+				}*/
 				p.setColor(currentColor);
 				glfwGetCursorPos(window, &mouseX, &mouseY);
 				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);

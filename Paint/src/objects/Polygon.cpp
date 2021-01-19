@@ -77,4 +77,49 @@ namespace PaintSlayer {
 		this->shader.terminate();
 		this->mesh.terminate();
 	}
+	bool Polygon::isInside(Point point, vector<Point> polygone)
+	{
+		for (int i = 0; i < polygone.size(); i++)
+		{
+			if (point == polygone[i])
+				return true;
+		}
+		return false;
+	}
+	vector<Point> Polygon::polyRectangle(vector<Point> polygone)
+	{
+		double xMin = std::numeric_limits<double>::max();
+		double xMax = std::numeric_limits<double>::min();
+		double yMin = std::numeric_limits<double>::max();
+		double yMax = std::numeric_limits<double>::min();
+
+		for (int i = 0; i < polygone.size(); i++)
+		{
+			double curX = polygone[i].getX();
+			double curY = polygone[i].getY();
+
+			if (xMax < curX)
+				xMax = curX;
+			else if (xMin > curY)
+				xMin = curX;
+			
+			if (yMax < curY)
+				yMax = curY;
+			else if (yMin > curY)
+				yMin = curY;
+		}
+
+		vector<Point> res;
+		Point A(xMin, yMax);
+		Point B(xMax, yMax);
+		Point C(xMax, yMin);
+		Point D(xMin, yMin);
+
+		res.push_back(A);
+		res.push_back(B);
+		res.push_back(C);
+		res.push_back(D);
+
+		return res;
+	}
 }
