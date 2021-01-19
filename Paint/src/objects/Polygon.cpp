@@ -72,5 +72,11 @@ namespace PaintSlayer {
 		this->mesh.indices.clear();
 	}
 
+	void Polygon::terminate()
+	{
+		this->shader.terminate();
+		this->mesh.terminate();
+	}
+
 
 }

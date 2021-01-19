@@ -206,6 +206,6 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	glfwTerminate();
-
+	p.terminate();
 	return 0;
 }

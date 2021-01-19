@@ -19,10 +19,11 @@ void Shader::linkProgramme(GLuint vertexShaderId, GLuint fragmentShaderId)
 {
 	programId = glCreateProgram();
 	if (programId == 0 || programId == GL_INVALID_OPERATION)
-		spdlog::error("SHADER : not able to create the shader object properly.\n Program ID : {}", programId);
-
-	glAttachShader(programId, vertexShaderId);
-	glAttachShader(programId, fragmentShaderId);
+		printf("SHADER : not able to create the shader object properly.\n Program ID : %d", programId);
+	vertId = vertexShaderId;
+	fragId = fragmentShaderId;
+	glAttachShader(programId, vertId);
+	glAttachShader(programId, fragId);
 	glLinkProgram(programId);
 
 	this->linkStatus();
@@ -88,4 +89,13 @@ Shader::Shader()
 void Shader::use()
 {
 	glUseProgram(programId);
+}
+
+void Shader::terminate()
+{
+	glDetachShader(programId, vertId);
+	glDetachShader(programId, fragId);
+	glDeleteShader(vertId);
+	glDeleteShader(fragId);
+	glDeleteProgram(programId);
 }
