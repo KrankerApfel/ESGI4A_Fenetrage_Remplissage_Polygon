@@ -22,6 +22,10 @@ namespace PaintSlayer {
 		void draw();
 		Shader& getShader();
 		void clear();
+		void terminate();
+		
+		//bool isConvex();
+	//	Polygon clip(const Polygon& p);
 	private:
 		vector<Point> points;
 		Mesh mesh;

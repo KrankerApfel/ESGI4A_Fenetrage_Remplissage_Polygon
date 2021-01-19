@@ -38,6 +38,8 @@ bool ctrlz = false;
 std::array<float, 4> currentColor{ 1, 1, 1, 0 };
 bool leftClick = false;
 double mouseX, mouseY;
+static int oldState = GLFW_RELEASE;
+
 // ===== utils
 void processInput(GLFWwindow* window)
 {
@@ -47,10 +49,14 @@ void processInput(GLFWwindow* window)
 	{
 		programState = State::MAIN_MENU;
 	}
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+	int newState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+	if ( newState == GLFW_PRESS && oldState == GLFW_RELEASE)
 	{
 		leftClick = true;
+	
 	}
+	oldState = newState;
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS &&(glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)) {
 		 ctrlz = true;
 	}
