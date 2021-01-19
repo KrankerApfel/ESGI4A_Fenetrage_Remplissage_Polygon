@@ -23,6 +23,8 @@ namespace PaintSlayer {
 		Shader& getShader();
 		void clear();
 		void terminate();
+		bool isInside(Point point, vector<Point> polygone);
+		vector<Point>polyRectangle(vector<Point> polygone);
 	private:
 		vector<Point> points;
 		Mesh mesh;
