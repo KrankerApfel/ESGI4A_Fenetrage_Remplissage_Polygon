@@ -8,6 +8,7 @@ double getDirCoef()
 
 Point* createSI(PaintSlayer::Polygon poly)
 {
+	vector<Point> points = poly.polyRectangle();
 	return nullptr;
 }
 

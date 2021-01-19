@@ -159,7 +159,11 @@ int main()
 			}
 			if (ImGui::Button("Fill"))
 			{
-				/*bool isInside = p.isInside(Point(3, 5), p.getPoints());
+				vector<Point> points{ Point(0,0), Point(0,10), Point(3,5), Point(5,5), Point(6,6) };
+				
+				bool isInside = p.isInside(Point(3, 6), points);
+				cout << "isInside: " << isInside;
+				/*
 				vector<Point> rect = p.polyRectangle(p.getPoints());
 				cout << "isInside: " << isInside;
 				cout << "rect is: ";
@@ -168,6 +172,7 @@ int main()
 					cout << rect[i].getX() <<  " - " << rect[i].getY() << "\n";
 				}*/
 				//fillPolygon(p)
+				
 			}
 			if (ImGui::Button("Clear all"))
 			{

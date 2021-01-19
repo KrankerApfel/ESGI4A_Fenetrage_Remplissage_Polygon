@@ -24,7 +24,7 @@ namespace PaintSlayer {
 		void clear();
 		void terminate();
 		bool isInside(Point point, vector<Point> polygone);
-		vector<Point>polyRectangle(vector<Point> polygone);
+		vector<Point>polyRectangle();
 	private:
 		vector<Point> points;
 		Mesh mesh;

@@ -6,3 +6,8 @@ Point* createSI(PaintSlayer::Polygon poly);
 vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints,const vector<Point>& clippin_areaPoints, int iterator);
 Point getIntersection(Point& d1Start, Point& d1End, Point& d2Start, Point& d2end);
 bool isPointInsidePoligon(Point pt, std::vector<Point> points);
+typedef struct maillion {
+	int yMax;
+	float xMin;
+	float coefDirInv;
+};

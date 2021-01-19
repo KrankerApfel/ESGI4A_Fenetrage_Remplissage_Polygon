@@ -86,17 +86,17 @@ namespace PaintSlayer {
 		}
 		return false;
 	}
-	vector<Point> Polygon::polyRectangle(vector<Point> polygone)
+	vector<Point> Polygon::polyRectangle()
 	{
 		double xMin = std::numeric_limits<double>::max();
 		double xMax = std::numeric_limits<double>::min();
 		double yMin = std::numeric_limits<double>::max();
 		double yMax = std::numeric_limits<double>::min();
 
-		for (int i = 0; i < polygone.size(); i++)
+		for (int i = 0; i < points.size(); i++)
 		{
-			double curX = polygone[i].getX();
-			double curY = polygone[i].getY();
+			double curX = points[i].getX();
+			double curY = points[i].getY();
 
 			if (xMax < curX)
 				xMax = curX;
