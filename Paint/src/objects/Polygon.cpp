@@ -77,16 +77,4 @@ namespace PaintSlayer {
 		this->shader.terminate();
 		this->mesh.terminate();
 	}
-
-	/*bool Polygon::isConvex()
-	{
-		return	;
-	}*/
-
-	/*Polygon Polygon::clip(const Polygon& p)
-	{
-		return Polygon();
-	}
-	*/
-
 }

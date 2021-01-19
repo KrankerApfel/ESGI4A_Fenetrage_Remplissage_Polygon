@@ -1,13 +1,6 @@
 #pragma once
 #include "../Objects/Point.h"
 #include "../Objects/Polygon.h"
-
-class Utils
-{
-	private: 
-
-	public:
-		double getDirCoef();
-		Point* createSI(PaintSlayer::Polygon poly);
-
-};
+static double getDirCoef();
+static Point* createSI(PaintSlayer::Polygon poly);
+static vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& clippin_areaPoints );

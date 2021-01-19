@@ -1,11 +1,24 @@
 #include "utils.h"
 
-double Utils::getDirCoef()
+
+double getDirCoef()
 {
-	return 0;
+	return 0.0;
 }
 
-Point* Utils::createSI(PaintSlayer::Polygon poly)
+Point* createSI(PaintSlayer::Polygon poly)
 {
-	return NULL;
+	return nullptr;
+}
+
+vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& clipping_areaPoints, int iterator)
+{
+	if (iterator == clipping_areaPoints.size()) return subjectPoints;
+
+	vector<Point> clippedPoints = subjectPoints;
+	for (int i = 0; i < clippedPoints.size(); i++) {
+		// récupé
+	
+	}
+	return SutherlandHodgman(clippedPoints, clipping_areaPoints, ++iterator);
 }
