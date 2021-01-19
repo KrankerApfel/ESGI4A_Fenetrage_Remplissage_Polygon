@@ -61,9 +61,9 @@ Point screenToWorldCoordinateint(double x, double y, GLFWwindow* w) {
 	int Rx, Ry;
 	glfwGetWindowSize(w, &Rx, &Ry);
 
-	double clipX = (x / Rx) * 2.0 - 1.0;
-	double clipY = 1.0 - (y / Ry) * 2.0; // the Y is usually upside down
-	return Point(clipX, clipY);
+	double worldX = (x / Rx) * 2.0 - 1.0;
+	double worldY = 1.0 - (y / Ry) * 2.0; 
+	return Point(worldX, worldY);
 }
 
 static void glfw_error_callback(int error, const char* description)
