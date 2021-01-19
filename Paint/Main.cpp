@@ -32,6 +32,8 @@
 #include "src/rendering/Mesh.h"
 #include "src/objects/Polygon.h"
 #include "src/objects/Point.h"
+#include "src/resources/utils.h"
+
 // ==== gobals vars
 enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION } programState;
 bool ctrlz = false;
@@ -39,6 +41,8 @@ std::array<float, 4> currentColor{ 1, 0, 0, 1 };
 bool leftClick = false;
 double mouseX, mouseY;
 static int oldState = GLFW_RELEASE;
+
+
 
 // ===== utils
 void processInput(GLFWwindow* window)
