@@ -3,4 +3,4 @@
 #include "../Objects/Polygon.h"
 static double getDirCoef();
 static Point* createSI(PaintSlayer::Polygon poly);
-static vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& clippin_areaPoints );
+static vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& clipping_areaPoints, int iterator);

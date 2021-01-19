@@ -17,7 +17,8 @@ vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& cli
 
 	vector<Point> clippedPoints = subjectPoints;
 	for (int i = 0; i < clippedPoints.size(); i++) {
-		// récupé
+		Point pt_current = clippedPoints.at(0);
+		Point pt_previous = clippedPoints.at((i-1) % clippedPoints.size());
 	
 	}
 	return SutherlandHodgman(clippedPoints, clipping_areaPoints, ++iterator);
