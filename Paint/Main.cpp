@@ -35,7 +35,7 @@
 // ==== gobals vars
 enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION } programState;
 bool ctrlz = false;
-std::array<float, 4> currentColor{ 1, 1, 1, 0 };
+std::array<float, 4> currentColor{ 1, 0, 0, 1 };
 bool leftClick = false;
 double mouseX, mouseY;
 static int oldState = GLFW_RELEASE;
@@ -97,7 +97,9 @@ int main()
 		return -1;
 	}
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+	Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 	PaintSlayer::Polygon p(s);
+	PaintSlayer::Polygon clipping_area(s2);
 
 
 	ImGui::CreateContext();
@@ -181,6 +183,34 @@ int main()
 				ctrlz = false;
 			}
 		}
+		
+		// ==== draw clipping area
+		if (programState == State::DRAW_CLIPPING_AREA)
+		{
+			// indication window
+			{
+				ImGui::Begin("Indications");
+				ImGui::Text("add point: left click, ctrl+z: remove point");
+				ImGui::End();
+			}
+
+
+			// add points by clicking on screen
+			if (leftClick)
+			{
+				std::array<float, 4> invertColor{ 1- currentColor.at(0), 1- currentColor.at(1), 1- currentColor.at(2), 1 };
+				clipping_area.setColor(invertColor);
+				glfwGetCursorPos(window, &mouseX, &mouseY);
+				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);
+				clipping_area.addPoint(point.getX(), point.getY());
+				leftClick = false;
+			}
+			// remove point by ctrl+z
+			if (ctrlz) {
+				if(clipping_area.getPoints().size() > 0) clipping_area.removePoint();
+				ctrlz = false;
+			}
+		}
 
 		// ==== change curent color
 		if (programState == State::COLOR_SELECTION)
@@ -197,7 +227,9 @@ int main()
 		ImGui::Render();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		clipping_area.draw();
 		p.draw();
+
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

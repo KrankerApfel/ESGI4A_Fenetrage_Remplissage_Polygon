@@ -5,7 +5,7 @@ namespace PaintSlayer {
 	Polygon::Polygon(Shader& s) {
 		this->mesh = Mesh();
 		this->points = vector<Point>();
-		this->color = std::array<float, 4>{1, 1, 1, 0};
+		this->color = std::array<float, 4>{1, 1, 1, 1};
 		this->shader = s;
 	}
 
@@ -33,7 +33,7 @@ namespace PaintSlayer {
 	void Polygon::setColor(std::array<float, 4> c)
 	{
 		this->color = c;
-		this->shader.setColor("icolor", c[0], c[1], c[2]);
+		this->shader.setColor("icolor", this->color[0], this->color[1], this->color[2]);
 
 	}
 
