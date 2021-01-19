@@ -104,6 +104,8 @@ int main()
 	Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 	PaintSlayer::Polygon p(s);
 	PaintSlayer::Polygon clipping_area(s2);
+	Shader s3("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+	PaintSlayer::Polygon newPoly(s3);
 
 
 	ImGui::CreateContext();
@@ -149,7 +151,11 @@ int main()
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
-				//sutherlandHodgmanClipping(p);
+				vector<Point> newPoints = SutherlandHodgman(p.getPoints(), clipping_area.getPoints(), 0);
+				newPoly = PaintSlayer::Polygon(s3, newPoints);
+				newPoly.setColor(currentColor);
+				p.clear();
+				clipping_area.clear();
 			}
 			if (ImGui::Button("Fill"))
 			{
@@ -158,6 +164,8 @@ int main()
 			if (ImGui::Button("Clear all"))
 			{
 				p.clear();
+				clipping_area.clear();
+				newPoly.clear();
 			}
 			ImGui::End();
 		}
@@ -233,6 +241,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		clipping_area.draw();
 		p.draw();
+		newPoly.draw();
 
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -249,5 +258,6 @@ int main()
 	ImGui::DestroyContext();
 	glfwTerminate();
 	p.terminate();
+	clipping_area.terminate();
 	return 0;
 }

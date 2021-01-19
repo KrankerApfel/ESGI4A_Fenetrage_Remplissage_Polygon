@@ -11,7 +11,7 @@ Point* createSI(PaintSlayer::Polygon poly)
 	return nullptr;
 }
 
-vector<Point> SutherlandHodgman(vector<Point>& subjectPoints, vector<Point>& clipping_areaPoints, int iterator)
+vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints, const vector<Point>& clipping_areaPoints, int iterator)
 {
 	if (iterator == clipping_areaPoints.size()) return subjectPoints;
 
