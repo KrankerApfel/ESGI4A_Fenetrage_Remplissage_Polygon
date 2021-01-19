@@ -171,8 +171,7 @@ int main()
 			}
 			// remove point by ctrl+z
 			if (ctrlz) {
-				spdlog::info("zdzezdd");
-				p.removePoint();
+				if(p.getPoints().size() > 0) p.removePoint();
 				ctrlz = false;
 			}
 		}

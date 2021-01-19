@@ -29,6 +29,8 @@ public:
 	void draw(Shader& shader);
 	void addLastVertexAtPosition(double x, double y);
 	void removeLastVertex();
+	void terminate();
+
 
 private:
 	unsigned int VBO, EBO;
