@@ -15,10 +15,12 @@ vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints, const vector
 {
 	if (iterator == clipping_areaPoints.size()) return subjectPoints;
 
+	vector<Point> points = subjectPoints;
 	vector<Point> clippedPoints = subjectPoints;
-	for (int i = 0; i < clippedPoints.size(); i++) {
-		Point pt_current = clippedPoints.at(0);
-		Point pt_previous = clippedPoints.at((i-1) % clippedPoints.size());
+	clippedPoints.clear();
+	for (int i = 0; i < points.size(); i++) {
+		Point pt_current = points.at(0);
+		Point pt_previous = points.at((i-1) % points.size());
 		Point pt_A = clipping_areaPoints.at((iterator - 1) % clipping_areaPoints.size());
 		Point pt_B = clipping_areaPoints.at(iterator);
 		
