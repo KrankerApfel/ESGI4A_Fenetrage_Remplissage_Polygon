@@ -84,7 +84,8 @@ bool isPointInsidePoligon(Point pt, std::vector<Point> points)
 std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 {
 	std::vector<Point> points_orderByY = p.getPoints();
-	std::map<double,Maillion> SI; 
+	std::map<double, Maillion> SI;
+	std::map<double, Maillion> tmpSI;
 
 	points_orderByY = orderPointByY(points_orderByY);
 	int size = points_orderByY.size();
@@ -94,7 +95,8 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 	{
 		// les trois points des segment traité
 		current = points_orderByY.at(i);
-		previous = points_orderByY.at((i - 1) % size);
+		spdlog::info("previous: {}", (i-1+size)%size);
+		previous = points_orderByY.at((i - 1+size) % size);
 		next = points_orderByY.at((i + 1) % size);
 		
 		if (previous.getY() > current.getY())
@@ -111,22 +113,22 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 			SI.insert_or_assign(current.getY(), m);
 		}	
 	}
-
+	tmpSI = SI;
 	// rajouter les trous dans la structure SI
-	for (auto it = SI.begin(); it != SI.end(); ++it)
+	for (auto it = tmpSI.begin(), it_next = it; it != tmpSI.end() && it_next != tmpSI.end(); ++it)
 	{
-		auto it_next = it;
 		it_next++;
 		// si les nombres ne sont pas successive
 		double diff = abs(it->first - it_next->first);
 		if (diff > 1)
 		{
 			double step = 0.001;
-			for (double i = it->first + step; i < it_next->first; i + step)
+			for (double i = it->first + step; i < it_next->first; i += step)
 			{
 				SI[i] = Maillion::empty;
 			}
-		}		
+		}
+		it_next = it;
 	}	
 
 	return SI;
