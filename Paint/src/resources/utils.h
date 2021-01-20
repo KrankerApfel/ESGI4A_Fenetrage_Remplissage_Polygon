@@ -7,7 +7,15 @@ typedef struct Maillion {
 	double yMax;
 	double xMin; // x du yMin
 	double coefDirInv;
-	Maillion* next;
+	Maillion &next;
+
+	Maillion& operator=(const Maillion& m)
+	{
+		this->yMax = m.yMax;
+		this->xMin = m.xMin;
+		this->coefDirInv = m.coefDirInv;
+		this->next = m.next;
+	}
 };
 
 double getDirCoef(const Point& a, const Point& b);
@@ -15,6 +23,6 @@ Point* createSI(PaintSlayer::Polygon poly);
 vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints,const vector<Point>& clippin_areaPoints, int iterator);
 Point getIntersection(Point& d1Start, Point& d1End, Point& d2Start, Point& d2end);
 bool isPointInsidePoligon(Point pt, std::vector<Point> points);
-std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p);
+std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p);
 Maillion computeMaillion(Point& p1, Point& p2);
 std::vector<Point> orderPointByY(std::vector<Point>& points);

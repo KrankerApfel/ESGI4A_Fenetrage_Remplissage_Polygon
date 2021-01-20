@@ -158,33 +158,7 @@ int main()
 			}
 			if (ImGui::Button("Fill"))
 			{
-				vector<Point> points{ Point(0,0), Point(0,10), Point(3,5), Point(5,5), Point(6,6) };
-				
-				bool isInside = p.isInside(Point(3, 6), points);
-				cout << "isInside: " << isInside;
-				/*
-				vector<Point> rect = p.polyRectangle(p.getPoints());
-				cout << "isInside: " << isInside;
-				cout << "rect is: ";
-				for (int i = 0; i < rect.size(); i++)
-				{
-					cout << rect[i].getX() <<  " - " << rect[i].getY() << "\n";
-				}*/
-				//fillPolygon(p)
-
-
-		/*		Point pt(3, 4);
-				std::vector<Point> points{ Point(0,0), Point(0,10), Point(10,10), Point(0,10) };
-
-				bool a = isPointInsidePoligon(pt, points );
-				spdlog::info("inside ? {} ", a);
-				
-				points = orderPointByY(points);
-				for (int i = 0; i < points.size(); i++)
-				{
-					cout << points[i].getY() << "\n";
-				}*/
-
+				initStructureSI(p);
 			}
 			if (ImGui::Button("Clear all"))
 			{

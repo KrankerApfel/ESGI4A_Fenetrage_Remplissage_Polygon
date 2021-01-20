@@ -4,6 +4,7 @@ private:
     double _x, _y;
 public:
     Point(double x, double y);
+    Point();
     double getX() const;
     double getY() const;
     void setX(const double);

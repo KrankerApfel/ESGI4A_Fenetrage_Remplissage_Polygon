@@ -81,20 +81,52 @@ bool isPointInsidePoligon(Point pt, std::vector<Point> points)
 	return intersections;
 }
 
-std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p)
+std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 {
 	std::vector<Point> points_orderByY = p.getPoints();
-
-	std::map<int, std::vector<Maillion>> SI; 
-/*	std::vector<Point> rectBoundPoints = p.polyRectangle();
-	
-	for (int i = rectBoundPoints.at(2).getY(); i < rectBoundPoints.at(1).getY(); i++)
-	{
-		std::vector<Maillion> m{ Maillion()};
-		SI.insert({ i,m });
-	}*/
+	std::map<double,Maillion> SI; 
 
 	points_orderByY = orderPointByY(points_orderByY);
+	int size = points_orderByY.size();
+	Point current, previous, next;
+
+	for (int i = 0; i < size; i++)
+	{
+		// les trois points des segment traité
+		current = points_orderByY.at(i);
+		previous = points_orderByY.at((i - 1) % size);
+		next = points_orderByY.at((i + 1) % size);
+		
+		if (previous.getY() > current.getY())
+		{
+			Maillion m = computeMaillion(current, previous);
+			if (next.getY() > current.getY()) {
+				m.next = computeMaillion(current, next);
+			}			
+			SI.insert_or_assign(current.getY(), m);
+		}
+		else if (next.getY() > current.getY()) {
+			Maillion m = computeMaillion(current, next);
+			SI.insert_or_assign(current.getY(), m);
+		}	
+	}
+
+	// rajouter les trous dans la structure SI
+	for (auto it = SI.begin(); it != SI.end(); ++it)
+	{
+		auto it_next = it;
+		it_next++;
+		// si les nombres ne sont pas successive
+		double diff = abs(it->first - it_next->first);
+		if (diff > 1)
+		{
+			double step = 0.001;
+			for (double i = it->first + step; i < it_next->first; i + step)
+			{
+				SI.insert_or_assign(i, nullptr);
+			}
+		}		
+	}	
 
 	return SI;
 }
