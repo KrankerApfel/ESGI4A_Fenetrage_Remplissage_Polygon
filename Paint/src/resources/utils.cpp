@@ -72,8 +72,9 @@ bool isPointInsidePoligon(Point pt, std::vector<Point> points)
 			))
 		{
 			intersections = !intersections;
-			j = i;
 		}
+		j = i;
+
 	}
 
 	return intersections;

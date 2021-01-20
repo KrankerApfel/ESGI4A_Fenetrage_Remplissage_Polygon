@@ -119,7 +119,6 @@ int main()
 	ImGui_ImplOpenGL3_Init(glsl_version);
 
 
-
 	while (!glfwWindowShouldClose(window)) {
 
 		// === refresh frame
@@ -172,7 +171,14 @@ int main()
 					cout << rect[i].getX() <<  " - " << rect[i].getY() << "\n";
 				}*/
 				//fillPolygon(p)
-				
+
+
+				Point pt(3, 4);
+				std::vector<Point> points{ Point(0,0), Point(0,10), Point(10,10), Point(0,10) };
+
+				bool a = isPointInsidePoligon(pt, points );
+				spdlog::info("inside ? {} ", a);
+
 			}
 			if (ImGui::Button("Clear all"))
 			{
