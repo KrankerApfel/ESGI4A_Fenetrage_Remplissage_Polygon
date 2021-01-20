@@ -114,10 +114,12 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 	}
 	tmpSI = SI;
 	// rajouter les trous dans la structure SI
-	for (auto it = tmpSI.begin(), it_next = it; it != tmpSI.end() && it_next != tmpSI.end(); ++it)
+	for (auto it = tmpSI.begin(), it_next = it; it != tmpSI.end() || it_next != tmpSI.end(); ++it)
 	{
+		it_next = it;
 		it_next++;
 		// si les nombres ne sont pas successive
+		if (it_next == tmpSI.end()) break;
 		double diff = abs(it->first - it_next->first);
 		double step = 0.001;
 		if (diff > step)
@@ -127,7 +129,6 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 				SI[i] = Maillion::empty;
 			}
 		}
-		it_next = it;
 	}	
 
 	return SI;
