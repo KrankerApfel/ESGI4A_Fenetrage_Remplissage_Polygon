@@ -177,7 +177,13 @@ int main()
 				std::vector<Point> points{ Point(0,0), Point(0,10), Point(10,10), Point(0,10) };
 
 				bool a = isPointInsidePoligon(pt, points );
-				spdlog::info("inside ? {} ", a);*/
+				spdlog::info("inside ? {} ", a);
+				
+				points = orderPointByY(points);
+				for (int i = 0; i < points.size(); i++)
+				{
+					cout << points[i].getY() << "\n";
+				}*/
 
 			}
 			if (ImGui::Button("Clear all"))

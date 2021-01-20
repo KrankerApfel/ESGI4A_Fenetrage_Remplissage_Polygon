@@ -4,9 +4,9 @@
 #include <vector>
 #include <map>
 typedef struct Maillion {
-	int yMax;
-	float xMin; // x du yMin
-	float coefDirInv;
+	double yMax;
+	double xMin; // x du yMin
+	double coefDirInv;
 	Maillion* next;
 };
 

@@ -83,6 +83,8 @@ bool isPointInsidePoligon(Point pt, std::vector<Point> points)
 
 std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p)
 {
+	std::vector<Point> points_orderByY = p.getPoints();
+
 	std::map<int, std::vector<Maillion>> SI; 
 /*	std::vector<Point> rectBoundPoints = p.polyRectangle();
 	
@@ -92,7 +94,7 @@ std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p)
 		SI.insert({ i,m });
 	}*/
 
-	std::vector<Point> points_orderByY = orderPointByY(p.getPoints());
+	points_orderByY = orderPointByY(points_orderByY);
 
 	return SI;
 }
@@ -112,13 +114,22 @@ Maillion computeMaillion(Point& p1, Point& p2)
 	};
 }
 
-std::vector<Point> orderPointByY(std::vector<Point>& points)
+std::vector<Point> orderPointByY(std::vector<Point> &points)
 {
-	std::vector<Point> res;
+	std::vector<Point> res = points;
+	Point tmp(0,0);
 
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size()-1; i++)
 	{
-		
+		for (int j = 0; j < points.size()-1; j++)
+		{
+			if (res[j].getY() > res[j + 1].getY())
+			{
+				tmp = res[j+1];
+				res[j + 1] = res[j];
+				res[j] = tmp;
+			}
+		}
 	}
 	return res;
 }
