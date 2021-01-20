@@ -101,7 +101,8 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 		{
 			Maillion m = computeMaillion(current, previous);
 			if (next.getY() > current.getY()) {
-				m.next = computeMaillion(current, next);
+				Maillion n = computeMaillion(current, next);
+				m.next = n;
 			}			
 			SI.insert_or_assign(current.getY(), m);
 		}

@@ -3,13 +3,21 @@
 #include "../Objects/Polygon.h"
 #include <vector>
 #include <map>
-typedef struct Maillion {
+class Maillion {
+public :
 	double yMax;
 	double xMin; // x du yMin
 	double coefDirInv;
-	Maillion &next;
+	Maillion next;
 
-	Maillion& operator=(const Maillion& m)
+	Maillion(double _yMax, double _xMin, double _coefDirInv, Maillion& _next)
+	{
+		this->yMax = _yMax;
+		this->xMin = _xMin;
+		this->coefDirInv = _coefDirInv;
+		this->next = _next;
+	}
+	Maillion& operator=(Maillion& m)
 	{
 		this->yMax = m.yMax;
 		this->xMin = m.xMin;
