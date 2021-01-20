@@ -102,7 +102,7 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 			Maillion m = computeMaillion(current, previous);
 			if (next.getY() > current.getY()) {
 				Maillion n = computeMaillion(current, next);
-				m.next = n;
+				m.next = &n;
 			}			
 			SI.insert_or_assign(current.getY(), m);
 		}
@@ -138,13 +138,12 @@ Maillion computeMaillion(Point& p1, Point& p2)
 	double xOfYMin;
 	if (yMin == p1.getY()) xOfYMin = p1.getX();
 	else xOfYMin = p2.getX();
-	return Maillion
-	{
+	return Maillion(
 		std::max(p1.getY(), p2.getY()),// yMax
 		xOfYMin,// x du yMin
 		1 / getDirCoef(p1,p2), // inverse slope
-		nullptr // next
-	};
+		nullptr
+	);
 }
 
 std::vector<Point> orderPointByY(std::vector<Point> &points)

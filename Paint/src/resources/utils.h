@@ -1,30 +1,10 @@
 #pragma once
 #include "../Objects/Point.h"
 #include "../Objects/Polygon.h"
+#include "../../Maillion.h"
 #include <vector>
 #include <map>
-class Maillion {
-public :
-	double yMax;
-	double xMin; // x du yMin
-	double coefDirInv;
-	Maillion next;
 
-	Maillion(double _yMax, double _xMin, double _coefDirInv, Maillion& _next)
-	{
-		this->yMax = _yMax;
-		this->xMin = _xMin;
-		this->coefDirInv = _coefDirInv;
-		this->next = _next;
-	}
-	Maillion& operator=(Maillion& m)
-	{
-		this->yMax = m.yMax;
-		this->xMin = m.xMin;
-		this->coefDirInv = m.coefDirInv;
-		this->next = m.next;
-	}
-};
 
 double getDirCoef(const Point& a, const Point& b);
 Point* createSI(PaintSlayer::Polygon poly);
