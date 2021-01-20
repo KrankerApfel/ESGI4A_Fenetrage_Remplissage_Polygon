@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Maillion.h" />
     <ClInclude Include="src\io\File.h" />
     <ClInclude Include="src\objects\Point.h" />
     <ClInclude Include="src\objects\Polygon.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Maillion.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="src\io\File.cpp" />
     <ClCompile Include="src\objects\Point.cpp" />

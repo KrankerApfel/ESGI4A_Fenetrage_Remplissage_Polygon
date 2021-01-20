@@ -124,7 +124,7 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 			double step = 0.001;
 			for (double i = it->first + step; i < it_next->first; i + step)
 			{
-				SI.insert_or_assign(i, nullptr);
+				SI[i] = Maillion::empty;
 			}
 		}		
 	}	

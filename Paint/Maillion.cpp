@@ -7,3 +7,13 @@ Maillion::Maillion(double _yMax, double _xMin, double _coefDirInv, Maillion* _ne
 		this->coefDirInv = _coefDirInv;
 		this->next = _next;
 }
+
+Maillion::Maillion()
+{
+	this->yMax = 0;
+	this->xMin = 0;
+	this->coefDirInv = 0;
+	this->next = nullptr;
+}
+
+Maillion Maillion::empty;
