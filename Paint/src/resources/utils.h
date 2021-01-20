@@ -17,3 +17,4 @@ Point getIntersection(Point& d1Start, Point& d1End, Point& d2Start, Point& d2end
 bool isPointInsidePoligon(Point pt, std::vector<Point> points);
 std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p);
 Maillion computeMaillion(Point& p1, Point& p2);
+std::vector<Point> orderPointByY(std::vector<Point>& points);
