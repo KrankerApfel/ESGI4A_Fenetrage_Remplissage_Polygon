@@ -95,7 +95,6 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 	{
 		// les trois points des segment traité
 		current = points_orderByY.at(i);
-		spdlog::info("previous: {}", (i-1+size)%size);
 		previous = points_orderByY.at((i - 1+size) % size);
 		next = points_orderByY.at((i + 1) % size);
 		
@@ -120,9 +119,9 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 		it_next++;
 		// si les nombres ne sont pas successive
 		double diff = abs(it->first - it_next->first);
-		if (diff > 1)
+		double step = 0.001;
+		if (diff > step)
 		{
-			double step = 0.001;
 			for (double i = it->first + step; i < it_next->first; i += step)
 			{
 				SI[i] = Maillion::empty;
