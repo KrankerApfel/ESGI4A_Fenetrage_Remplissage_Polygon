@@ -1,9 +1,10 @@
 #include "utils.h"
 #include <limits>
+#include<algorithm> 
 
-double getDirCoef()
+double getDirCoef(const Point& a,const  Point& b)
 {
-	return 0.0;
+	return (b.getX() - a.getX())*(b.getY() - a.getY());
 }
 
 Point* createSI(PaintSlayer::Polygon poly)
@@ -92,5 +93,20 @@ std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p)
 	}
 
 	return SI;
+}
+
+Maillion computeMaillion(Point& p1, Point& p2)
+{
+	double yMin = std::min(p1.getY(), p2.getY());
+	double xOfYMin;
+	if (yMin == p1.getY()) xOfYMin = p1.getX();
+	else xOfYMin = p2.getX();
+	return Maillion
+	{
+		std::max(p1.getY(), p2.getY()),// yMax
+		xOfYMin,// x du yMin
+		1 / getDirCoef(p1,p2), // inverse slope
+		nullptr // next
+	};
 }
 

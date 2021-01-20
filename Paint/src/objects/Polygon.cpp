@@ -1,5 +1,6 @@
 #include "Polygon.h"
 #include "../rendering/Shader.h"
+
 namespace PaintSlayer {
 
 	Polygon::Polygon(Shader& s) {
