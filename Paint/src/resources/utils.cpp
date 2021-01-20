@@ -14,16 +14,16 @@ Point* createSI(PaintSlayer::Polygon poly)
 
 vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints, const vector<Point>& clipping_areaPoints, int iterator)
 {
-	if (iterator == clipping_areaPoints.size()) return subjectPoints;
+	if (iterator == clipping_areaPoints.size() - 1) return subjectPoints;
 
 	vector<Point> points = subjectPoints;
 	vector<Point> clippedPoints = subjectPoints;
 	clippedPoints.clear();
 	for (int i = 0; i < points.size(); i++) {
 		Point pt_current = points.at(0);
-		Point pt_previous = points.at((i-1) % points.size());
-		Point pt_A = clipping_areaPoints.at((iterator - 1) % clipping_areaPoints.size());
-		Point pt_B = clipping_areaPoints.at(iterator);
+		Point pt_previous = points.at((static_cast<unsigned long long>(i)-1) % points.size());
+		Point pt_A = clipping_areaPoints.at(iterator);
+		Point pt_B = clipping_areaPoints.at(static_cast<std::vector<Point, std::allocator<Point>>::size_type>(iterator)+1);
 		
 		Point pt_intersection = getIntersection(pt_previous, pt_current, pt_A, pt_B );
 		if (isPointInsidePoligon(pt_current, clipping_areaPoints))
@@ -79,3 +79,18 @@ bool isPointInsidePoligon(Point pt, std::vector<Point> points)
 
 	return intersections;
 }
+
+std::map<int, std::vector<Maillion>> initStructureSI(PaintSlayer::Polygon p)
+{
+	std::map<int, std::vector<Maillion>> SI; 
+	std::vector<Point> rectBoundPoints = p.polyRectangle();
+	
+	for (int i = rectBoundPoints.at(2).getY(); i < rectBoundPoints.at(1).getY(); i++)
+	{
+		std::vector<Maillion> m{ Maillion()};
+		SI.insert({ i,m });
+	}
+
+	return SI;
+}
+
