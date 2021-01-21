@@ -7,11 +7,7 @@ double getDirCoef(const Point& a,const  Point& b)
 	return (b.getX() - a.getX())*(b.getY() - a.getY());
 }
 
-Point* createSI(PaintSlayer::Polygon poly)
-{
-	vector<Point> points = poly.polyRectangle();
-	return nullptr;
-}
+
 
 vector<Point> SutherlandHodgman(const vector<Point>& subjectPoints, const vector<Point>& clipping_areaPoints, int iterator)
 {
@@ -143,8 +139,8 @@ Maillion computeMaillion(Point& p1, Point& p2)
 	return Maillion(
 		std::max(p1.getY(), p2.getY()),// yMax
 		xOfYMin,// x du yMin
-		1 / getDirCoef(p1,p2), // inverse slope
-		nullptr
+		1 / getDirCoef(p1, p2), // inverse slope
+		&Maillion::empty
 	);
 }
 

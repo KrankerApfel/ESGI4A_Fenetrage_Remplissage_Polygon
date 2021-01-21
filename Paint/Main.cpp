@@ -158,7 +158,8 @@ int main()
 			}
 			if (ImGui::Button("Fill"))
 			{
-				std::map<double, Maillion> SI = initStructureSI(p);//ouaisouais
+				std::map<double, Maillion> SI = initStructureSI(p);
+				p.fill(SI);
 			}
 			if (ImGui::Button("Clear all"))
 			{

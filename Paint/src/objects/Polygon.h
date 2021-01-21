@@ -5,6 +5,9 @@
 #include "../rendering/Mesh.h"
 #include <vector>
 #include "../../../stdafx.h"
+#include <map>
+#include "../../Maillion.h"
+
 using namespace std;
 namespace PaintSlayer {
 
@@ -25,6 +28,9 @@ namespace PaintSlayer {
 		void terminate();
 		bool isInside(Point point, vector<Point> polygone);
 		vector<Point>polyRectangle();
+		void fill(std::map<double, Maillion> SI);
+		void drawPoint(float x, float y);
+		void drawLine(float x1, float y1, float x2, float y2);
 	private:
 		vector<Point> points;
 		Mesh mesh;
