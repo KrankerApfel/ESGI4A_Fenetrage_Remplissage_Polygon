@@ -14,3 +14,6 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p);
 Maillion computeMaillion(Point& p1, Point& p2);
 std::vector<Point> orderPointByY(std::vector<Point>& points);
 bool visible(Point& pt, Point& A, Point& B);
+
+
+

@@ -142,11 +142,14 @@ int main()
 			if (ImGui::Button("Draw polygone"))
 			{
 				programState = State::DRAW_POLYGON;
+				leftClick = false;
 
 			}
 			if (ImGui::Button("Draw clipping area"))
 			{
 				programState = State::DRAW_CLIPPING_AREA;
+				leftClick = false;
+
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
