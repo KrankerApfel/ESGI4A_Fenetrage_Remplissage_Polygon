@@ -58,6 +58,7 @@ namespace PaintSlayer {
 	void Polygon::draw()
 	{
 		this->shader.use();
+		this->setColor(this->color);
 		this->mesh.draw(this->shader);
 	}
 
