@@ -150,7 +150,7 @@ int main()
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
-				vector<Point> newPoints = SutherlandHodgman(p.getPoints(), clipping_area.getPoints(), 0);
+				vector<Point> newPoints = SutherlandHodgman(p.getPoints(), clipping_area.getPoints());
 				newPoly = PaintSlayer::Polygon(s3, newPoints);
 				newPoly.setColor(currentColor);
 				p.clear();

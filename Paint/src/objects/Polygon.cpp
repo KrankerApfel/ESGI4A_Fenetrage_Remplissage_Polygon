@@ -124,7 +124,9 @@ namespace PaintSlayer {
 		return res;
 	}
 	void Polygon::fill(std::map<double, Maillion> SI)
-	{
+	{		
+		float oldX1, oldX2;
+		
 		for (auto it = SI.begin(); it != SI.end(); it++ )
 		{
 			float y1 = it->first;
@@ -135,12 +137,15 @@ namespace PaintSlayer {
 			if ( &next != &Maillion::empty)
 			{
 				x2 = next.xMin + next.coefDirInv;
+				drawLine(x1, y1, x2, y1);
+				oldX1 = x1;
+				oldX2 = x2;
 			}
 			else {
-				x2 = x1;
+				x2 = oldX2;
+				x1 = oldX1;
 			}
 
-			drawLine(x1, y1, x2, y1);	
 			
 		}
 
