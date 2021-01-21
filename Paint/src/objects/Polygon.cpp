@@ -34,7 +34,7 @@ namespace PaintSlayer {
 	void Polygon::setColor(std::array<float, 4> c)
 	{
 		this->color = c;
-		this->shader.setColor("icolor", this->color[0], this->color[1], this->color[2]);
+		this->shader.setColor("icolor", c[0],c[1], c[2]);
 
 	}
 

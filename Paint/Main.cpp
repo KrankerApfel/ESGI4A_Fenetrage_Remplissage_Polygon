@@ -246,7 +246,10 @@ int main()
 		ImGui::Render();
 		glClearColor(0.2f, 0.5f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		std::array<float, 4> invertColor{ 1 - currentColor.at(0), 1 - currentColor.at(1), 1 - currentColor.at(2), 1 };
+		clipping_area.setColor(invertColor);
 		clipping_area.draw();
+		p.setColor(currentColor);
 		p.draw();
 		newPoly.draw();
 
