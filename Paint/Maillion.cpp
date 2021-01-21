@@ -13,7 +13,7 @@ Maillion::Maillion()
 	this->yMax = 0;
 	this->xMin = 0;
 	this->coefDirInv = 0;
-	this->next = nullptr;
+	this->next = &Maillion::empty;
 }
 
 Maillion Maillion::empty;
