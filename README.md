@@ -7,7 +7,6 @@ Ce projet utilise GLAD pour gérer OpenGL 3.3, GLFW pour les fenêtres, SpdLog c
 * dll : contient les dlls :trollface: .
 * vendor : contient les dépendances.
 * src : contient les script du programme.
-	- ui : contient le code source des interfaces utilisateur (window, button, etc...)
 	- io : contient le code source des input/output( File etc...)
 	- rendering : contient le code source de tout ce qui est impliqué dans le rendu  (shader, mesh etc...)
 	- obj : contient le code source des objets utilisé dans ce projet (tracer un polygone, algorithme de fenêtrage etc...)
