@@ -101,11 +101,15 @@ int main()
 		return -1;
 	}
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	PaintSlayer::Polygon p(s);
-	PaintSlayer::Polygon clipping_area(s2);
-	Shader s3("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	PaintSlayer::Polygon newPoly(s3);
+	
+//	PaintSlayer::Polygon p(s);
+	//Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+	PaintSlayer::Polygon clipping_area(s);
+//	Shader s3("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+	//PaintSlayer::Polygon newPoly(s3);
+
+	std::vector<PaintSlayer::Polygon> polygons;
+	std::vector<PaintSlayer::Polygon> clipped_polygons;
 
 
 	ImGui::CreateContext();
@@ -143,6 +147,9 @@ int main()
 			{
 				programState = State::DRAW_POLYGON;
 				leftClick = false;
+				Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+				PaintSlayer::Polygon p(s);
+				polygons.push_back(p);
 
 			}
 			if (ImGui::Button("Draw clipping area"))
@@ -153,22 +160,34 @@ int main()
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
-				vector<Point> newPoints = SutherlandHodgman(p.getPoints(), clipping_area.getPoints());
-				newPoly = PaintSlayer::Polygon(s3, newPoints);
-				newPoly.setColor(currentColor);
-				p.clear();
+				
+				for (int i = 0; i < polygons.size(); i++)
+				{
+					vector<Point> newPoints = SutherlandHodgman(polygons[i].getPoints(), clipping_area.getPoints());
+					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+					PaintSlayer::Polygon newPoly = PaintSlayer::Polygon(s, newPoints);
+					newPoly.setColor(currentColor);
+					clipped_polygons.push_back(newPoly);
+					polygons[i].clear();
+				}
 				clipping_area.clear();
 			}
 			if (ImGui::Button("Fill"))
 			{
-				std::map<double, Maillion> SI = initStructureSI(p);
-				p.fill(SI);
+			//	std::map<double, Maillion> SI = initStructureSI(p);
+			//	p.fill(SI);
 			}
 			if (ImGui::Button("Clear all"))
 			{
-				p.clear();
 				clipping_area.clear();
-				newPoly.clear();
+				for (int i = 0; i < polygons.size(); i++)
+				{
+					polygons[i].clear();
+				}
+				for (int i = 0; i < clipped_polygons.size(); i++)
+				{
+					clipped_polygons[i].clear();
+				}
 			}
 			ImGui::End();
 		}
@@ -181,7 +200,7 @@ int main()
 				ImGui::Text("add point: left click, ctrl+z: remove point");
 				ImGui::End();
 			}
-
+			
 
 			// add points by clicking on screen
 			if (leftClick)
@@ -190,15 +209,15 @@ int main()
 				{
 					continue;
 				}*/
-				p.setColor(currentColor);
+				polygons[polygons.size()-1].setColor(currentColor);
 				glfwGetCursorPos(window, &mouseX, &mouseY);
 				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);
-				p.addPoint(point.getX(), point.getY());
+				polygons[polygons.size()-1].addPoint(point.getX(), point.getY());
 				leftClick = false;
 			}
 			// remove point by ctrl+z
 			if (ctrlz) {
-				if(p.getPoints().size() > 0) p.removePoint();
+				if(polygons[polygons.size()-1].getPoints().size() > 0) polygons[polygons.size()-1].removePoint();
 				ctrlz = false;
 			}
 		}
@@ -246,13 +265,21 @@ int main()
 		ImGui::Render();
 		glClearColor(0.2f, 0.5f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		std::array<float, 4> invertColor{ 1 - currentColor.at(0), 1 - currentColor.at(1), 1 - currentColor.at(2), 1 };
-		clipping_area.setColor(invertColor);
+		//std::array<float, 4> invertColor{ 1 - currentColor.at(0), 1 - currentColor.at(1), 1 - currentColor.at(2), 1 };
+	//	clipping_area.setColor(invertColor);
 		clipping_area.draw();
-		p.setColor(currentColor);
-		p.draw();
-		newPoly.draw();
-
+		//p.setColor(currentColor);
+	//	p.draw();
+		//newPoly.draw();
+		for (int i = 0; i < polygons.size(); i++)
+		{
+			polygons[i].setColor(currentColor);
+			polygons[i].draw();
+		}
+		for (int i = 0; i < clipped_polygons.size(); i++)
+		{
+			clipped_polygons[i].draw();
+		}
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -267,7 +294,14 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	glfwTerminate();
-	p.terminate();
+	for (int i = 0; i < clipped_polygons.size(); i++)
+	{
+		clipped_polygons[i].terminate();
+	}
+	for (int i = 0; i < polygons.size(); i++)
+	{
+		polygons[i].terminate();
+	}
 	clipping_area.terminate();
 	return 0;
 }
