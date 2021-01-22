@@ -35,7 +35,7 @@
 #include "src/resources/utils.h"
 
 // ==== gobals vars
-enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION } programState;
+enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION, DISPLAY_RECTBOUNDS } programState;
 bool ctrlz = false;
 std::array<float, 4> currentColor{ 1, 0, 0, 1 };
 bool leftClick = false;
@@ -110,6 +110,7 @@ int main()
 
 	std::vector<PaintSlayer::Polygon> polygons;
 	std::vector<PaintSlayer::Polygon> clipped_polygons;
+	std::vector<PaintSlayer::Polygon> rects;
 
 
 	ImGui::CreateContext();
@@ -131,7 +132,7 @@ int main()
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 		}
-
+		
 		// === right click menu
 		if (programState == State::MAIN_MENU)
 		{
@@ -172,10 +173,16 @@ int main()
 				}
 				clipping_area.clear();
 			}
-			if (ImGui::Button("Fill"))
+			if (ImGui::Button("Draw rect bounds"))
 			{
-			//	std::map<double, Maillion> SI = initStructureSI(p);
-			//	p.fill(SI);
+				for (int i = 0; i < polygons.size(); i++)
+				{
+					std::vector<Point> rec = polygons[i].polyRectangle();
+					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+					PaintSlayer::Polygon newPoly(s, rec);
+					newPoly.setColor(std::array<float, 4>{0.7,0.5,0.12,1});
+					rects.push_back(newPoly);
+				}
 			}
 			if (ImGui::Button("Clear all"))
 			{
@@ -187,6 +194,10 @@ int main()
 				for (int i = 0; i < clipped_polygons.size(); i++)
 				{
 					clipped_polygons[i].clear();
+				}
+				for (int i = 0; i < rects.size(); i++)
+				{
+					rects[i].clear();
 				}
 			}
 			ImGui::End();
@@ -280,6 +291,11 @@ int main()
 		{
 			clipped_polygons[i].draw();
 		}
+
+		for (int i = 0; i < rects.size(); i++)
+		{
+			rects[i].draw();
+		}
 		glfwPollEvents();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -301,6 +317,10 @@ int main()
 	for (int i = 0; i < polygons.size(); i++)
 	{
 		polygons[i].terminate();
+	}
+	for (int i = 0; i < rects.size(); i++)
+	{
+		rects[i].terminate();
 	}
 	clipping_area.terminate();
 	return 0;
