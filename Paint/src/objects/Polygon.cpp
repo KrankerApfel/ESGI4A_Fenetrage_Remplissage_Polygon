@@ -90,10 +90,11 @@ namespace PaintSlayer {
 	}
 	vector<Point> Polygon::polyRectangle()
 	{
-		double xMin = std::numeric_limits<double>::max();
-		double xMax = std::numeric_limits<double>::min();
-		double yMin = std::numeric_limits<double>::max();
-		double yMax = std::numeric_limits<double>::min();
+		if (points.size() <= 0) return vector<Point>();
+		double xMin = points.at(0).getX();
+		double xMax = points.at(0).getX();
+		double yMin = points.at(0).getY();
+		double yMax = points.at(0).getY();
 
 		for (int i = 0; i < points.size(); i++)
 		{
