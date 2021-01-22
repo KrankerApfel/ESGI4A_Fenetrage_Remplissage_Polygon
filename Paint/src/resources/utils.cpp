@@ -171,7 +171,7 @@ std::map<double, Maillion> initStructureSI(PaintSlayer::Polygon p)
 
 	for (int i = 0; i < size; i++)
 	{
-		// les trois points des segment traité
+		// les trois points des segment traitï¿½
 		current = points_orderByY.at(i);
 		previous = points_orderByY.at((i - 1+size) % size);
 		next = points_orderByY.at((i + 1) % size);

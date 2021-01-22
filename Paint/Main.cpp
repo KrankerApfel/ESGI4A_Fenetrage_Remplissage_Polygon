@@ -38,6 +38,8 @@
 enum State { IDLE, MAIN_MENU, DRAW_POLYGON, DRAW_CLIPPING_AREA, COLOR_SELECTION, DISPLAY_RECTBOUNDS } programState;
 bool ctrlz = false;
 std::array<float, 4> currentColor{ 1, 0, 0, 1 };
+std::array<float, 4> clippingColor{ 0, 1, 0, 1 };
+std::array<float, 4> rectangleColor{ 0.7, 0.5, 0.12, 1 };
 bool leftClick = false;
 double mouseX, mouseY;
 static int oldState = GLFW_RELEASE;
@@ -54,15 +56,15 @@ void processInput(GLFWwindow* window)
 		programState = State::MAIN_MENU;
 	}
 	int newState = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
-	if ( newState == GLFW_PRESS && oldState == GLFW_RELEASE)
+	if (newState == GLFW_PRESS && oldState == GLFW_RELEASE)
 	{
 		leftClick = true;
-	
+
 	}
 	oldState = newState;
 
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS &&(glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)) {
-		 ctrlz = true;
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)) {
+		ctrlz = true;
 	}
 }
 
@@ -72,7 +74,7 @@ Point screenToWorldCoordinateint(double x, double y, GLFWwindow* w) {
 	glfwGetWindowSize(w, &Rx, &Ry);
 
 	double worldX = (x / Rx) * 2.0 - 1.0;
-	double worldY = 1.0 - (y / Ry) * 2.0; 
+	double worldY = 1.0 - (y / Ry) * 2.0;
 	return Point(worldX, worldY);
 }
 
@@ -101,12 +103,12 @@ int main()
 		return -1;
 	}
 	Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	
-//	PaintSlayer::Polygon p(s);
-	//Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+
+	//	PaintSlayer::Polygon p(s);
+		//Shader s2("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 	PaintSlayer::Polygon clipping_area(s);
-//	Shader s3("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
-	//PaintSlayer::Polygon newPoly(s3);
+	//	Shader s3("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+		//PaintSlayer::Polygon newPoly(s3);
 
 	std::vector<PaintSlayer::Polygon> polygons;
 	std::vector<PaintSlayer::Polygon> clipped_polygons;
@@ -132,7 +134,7 @@ int main()
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 		}
-		
+
 		// === right click menu
 		if (programState == State::MAIN_MENU)
 		{
@@ -161,7 +163,6 @@ int main()
 			}
 			if (ImGui::Button("Apply clipping"))
 			{
-				
 				for (int i = 0; i < polygons.size(); i++)
 				{
 					vector<Point> newPoints = SutherlandHodgman(polygons[i].getPoints(), clipping_area.getPoints());
@@ -182,7 +183,7 @@ int main()
 					std::vector<Point> rec = polygons[i].polyRectangle();
 					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 					PaintSlayer::Polygon newPoly(s, rec);
-					newPoly.setColor(std::array<float, 4>{0.7,0.5,0.12,1});
+					newPoly.setColor(rectangleColor);
 					rects.push_back(newPoly);
 				}
 				for (int i = 0; i < clipped_polygons.size(); i++)
@@ -190,7 +191,7 @@ int main()
 					std::vector<Point> rec = clipped_polygons[i].polyRectangle();
 					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 					PaintSlayer::Polygon newPoly(s, rec);
-					newPoly.setColor(std::array<float, 4>{0.7,0.5,0.12,1});
+					newPoly.setColor(rectangleColor);
 					rects.push_back(newPoly);
 				}
 			}
@@ -221,7 +222,7 @@ int main()
 				ImGui::Text("add point: left click, ctrl+z: remove point");
 				ImGui::End();
 			}
-			
+
 
 			// add points by clicking on screen
 			if (leftClick)
@@ -230,19 +231,19 @@ int main()
 				{
 					continue;
 				}*/
-				polygons[polygons.size()-1].setColor(currentColor);
+				polygons[polygons.size() - 1].setColor(currentColor);
 				glfwGetCursorPos(window, &mouseX, &mouseY);
 				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);
-				polygons[polygons.size()-1].addPoint(point.getX(), point.getY());
+				polygons[polygons.size() - 1].addPoint(point.getX(), point.getY());
 				leftClick = false;
 			}
 			// remove point by ctrl+z
 			if (ctrlz) {
-				if(polygons[polygons.size()-1].getPoints().size() > 0) polygons[polygons.size()-1].removePoint();
+				if (polygons[polygons.size() - 1].getPoints().size() > 0) polygons[polygons.size() - 1].removePoint();
 				ctrlz = false;
 			}
 		}
-		
+
 		// ==== draw clipping area
 		if (programState == State::DRAW_CLIPPING_AREA)
 		{
@@ -253,12 +254,12 @@ int main()
 				ImGui::End();
 			}
 
-
+			
 			// add points by clicking on screen
 			if (leftClick)
 			{
-				std::array<float, 4> invertColor{ 1- currentColor.at(0), 1- currentColor.at(1), 1- currentColor.at(2), 1 };
-				clipping_area.setColor(invertColor);
+				//std::array<float, 4> invertColor{ 1 - currentColor.at(0), 1 - currentColor.at(1), 1 - currentColor.at(2), 1 };
+				clipping_area.setColor(clippingColor);
 				glfwGetCursorPos(window, &mouseX, &mouseY);
 				Point point = screenToWorldCoordinateint(mouseX, mouseY, window);
 				clipping_area.addPoint(point.getX(), point.getY());
@@ -266,7 +267,7 @@ int main()
 			}
 			// remove point by ctrl+z
 			if (ctrlz) {
-				if(clipping_area.getPoints().size() > 0) clipping_area.removePoint();
+				if (clipping_area.getPoints().size() > 0) clipping_area.removePoint();
 				ctrlz = false;
 			}
 		}
@@ -276,7 +277,9 @@ int main()
 		{
 			bool show_color_menu;
 			ImGui::Begin("Change Color Menu", &show_color_menu);
-			ImGui::ColorEdit4("color", (float*)&currentColor);
+			ImGui::ColorEdit4("poly color", (float*)&currentColor);
+			ImGui::ColorEdit4("clipping color", (float*)&clippingColor);
+			ImGui::ColorEdit4("rectangle color", (float*)&rectangleColor);
 			if (show_color_menu == false) programState == State::IDLE;
 			ImGui::End();
 		}
@@ -299,11 +302,13 @@ int main()
 		}
 		for (int i = 0; i < clipped_polygons.size(); i++)
 		{
+			//polygons[i].setColor(currentColor);
 			clipped_polygons[i].draw();
 		}
 
 		for (int i = 0; i < rects.size(); i++)
 		{
+			//polygons[i].setColor(rectangleColor);
 			rects[i].draw();
 		}
 		glfwPollEvents();
