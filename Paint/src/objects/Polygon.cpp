@@ -102,7 +102,7 @@ namespace PaintSlayer {
 
 			if (xMax < curX)
 				xMax = curX;
-			else if (xMin > curY)
+			else if (xMin > curX)
 				xMin = curX;
 			
 			if (yMax < curY)

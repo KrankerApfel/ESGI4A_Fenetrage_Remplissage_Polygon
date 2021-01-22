@@ -175,9 +175,19 @@ int main()
 			}
 			if (ImGui::Button("Draw rect bounds"))
 			{
+
+				rects.clear();
 				for (int i = 0; i < polygons.size(); i++)
 				{
 					std::vector<Point> rec = polygons[i].polyRectangle();
+					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
+					PaintSlayer::Polygon newPoly(s, rec);
+					newPoly.setColor(std::array<float, 4>{0.7,0.5,0.12,1});
+					rects.push_back(newPoly);
+				}
+				for (int i = 0; i < clipped_polygons.size(); i++)
+				{
+					std::vector<Point> rec = clipped_polygons[i].polyRectangle();
 					Shader s("src\\resources\\vert.glsl", "src\\resources\\frag.glsl");
 					PaintSlayer::Polygon newPoly(s, rec);
 					newPoly.setColor(std::array<float, 4>{0.7,0.5,0.12,1});
